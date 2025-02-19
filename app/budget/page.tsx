@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import TransactionList from "@/components/TransactionList"; // Import your TransactionList component
+import TransactionList from "@/components/TransactionList"; 
 
 interface BudgetProps {
   monthlyExpenses: { month: string; total: number }[];
@@ -12,7 +12,7 @@ interface BudgetProps {
   setTransactions: React.Dispatch<React.SetStateAction<{ id: number; amount: number; date: string; description: string; category: string }[]>>;
 }
 
-const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transactions, setTransactions }: BudgetProps) => {
+const Budget: React.FC<BudgetProps> = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transactions, setTransactions }) => {
   const [newTransaction, setNewTransaction] = useState({ amount: 0, date: "", description: "", category: "" });
 
   const addTransaction = () => {
@@ -29,7 +29,7 @@ const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transa
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setNewTransaction({ ...newTransaction, [name]: name === "amount" ? Number(value) : value });
+    setNewTransaction(prev => ({ ...prev, [name]: name === "amount" ? Number(value) : value }));
   };
 
   return (
@@ -80,11 +80,11 @@ const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transa
         Add Transaction
       </button>
 
-      {/* Transaction List */}
+      {}
       <TransactionList
         transactions={transactions}
         deleteTransaction={(id: number) => setTransactions(transactions.filter(t => t.id !== id))}
-        editTransaction={(id: number) => {  }}
+        editTransaction={(id: number) => {}}
       />
     </div>
   );
