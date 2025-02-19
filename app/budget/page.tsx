@@ -1,18 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import TransactionList from "@/components/TransactionList"; 
+import TransactionList from "@/components/TransactionList"; // Import your TransactionList component
 
-interface BudgetProps {
-  monthlyExpenses: { month: string; total: number }[];
-  setMonthlyExpenses: React.Dispatch<React.SetStateAction<{ month: string; total: number }[]>>;
-  budget: number;
-  setBudget: React.Dispatch<React.SetStateAction<number>>;
-  transactions: { id: number; amount: number; date: string; description: string; category: string }[];
-  setTransactions: React.Dispatch<React.SetStateAction<{ id: number; amount: number; date: string; description: string; category: string }[]>>;
-}
+const Budget = () => {
+  // State management inside the component
+  const [monthlyExpenses, setMonthlyExpenses] = useState<{ month: string; total: number }[]>([]);
+  const [budget, setBudget] = useState<number>(0);
+  const [transactions, setTransactions] = useState<
+    { id: number; amount: number; date: string; description: string; category: string }[]
+  >([]);
 
-const Budget: React.FC<BudgetProps> = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transactions, setTransactions }) => {
   const [newTransaction, setNewTransaction] = useState({ amount: 0, date: "", description: "", category: "" });
 
   const addTransaction = () => {
@@ -26,7 +24,6 @@ const Budget: React.FC<BudgetProps> = ({ monthlyExpenses, setMonthlyExpenses, bu
     setNewTransaction({ amount: 0, date: "", description: "", category: "" }); // Reset form
   };
 
-  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewTransaction(prev => ({ ...prev, [name]: name === "amount" ? Number(value) : value }));
@@ -80,11 +77,11 @@ const Budget: React.FC<BudgetProps> = ({ monthlyExpenses, setMonthlyExpenses, bu
         Add Transaction
       </button>
 
-      {}
+      {/* Transaction List */}
       <TransactionList
         transactions={transactions}
         deleteTransaction={(id: number) => setTransactions(transactions.filter(t => t.id !== id))}
-        editTransaction={(id: number) => {}}
+        editTransaction={(id: number) => { /* Handle edit logic here */ }}
       />
     </div>
   );
