@@ -21,7 +21,7 @@ const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transa
       return;
     }
 
-    const newTrans = { id: transactions.length + 1, ...newTransaction };
+    const newTrans = { id: transactions.length + 1, ...newTransaction, amount: Number(newTransaction.amount) };
     setTransactions([...transactions, newTrans]);
     setNewTransaction({ amount: 0, date: "", description: "", category: "" }); // Reset form
   };
@@ -29,12 +29,13 @@ const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transa
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setNewTransaction({ ...newTransaction, [name]: value });
+    setNewTransaction({ ...newTransaction, [name]: name === "amount" ? Number(value) : value });
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
       <h2 className="text-xl font-semibold mb-4">Add Transaction</h2>
+      <h3 className="text-lg font-medium">Current Budget: ${budget}</h3>
 
       {/* Transaction Form */}
       <input
@@ -83,7 +84,7 @@ const Budget = ({ monthlyExpenses, setMonthlyExpenses, budget, setBudget, transa
       <TransactionList
         transactions={transactions}
         deleteTransaction={(id: number) => setTransactions(transactions.filter(t => t.id !== id))}
-        editTransaction={(id: number) => { /* Handle edit logic here */ }}
+        editTransaction={(id: number) => {  }}
       />
     </div>
   );
