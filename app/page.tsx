@@ -1,101 +1,93 @@
-import Image from "next/image";
+'use client'
+import { useState } from "react";
+import MonthlyExpensesChart from "../components/MonthlyExpensesChart";
+import Budget from "./budget/page";
 
-export default function Home() {
+const monthlyExpensesData = [
+  { month: 'January', total: 1200 },
+  { month: 'February', total: 900 },
+  { month: 'March', total: 1300 },
+  { month: 'April', total: 1000 },
+  { month: 'May', total: 800 },
+  { month: 'June', total: 1100 },
+  { month: 'July', total: 950 },
+  { month: 'August', total: 1400 },
+  { month: 'September', total: 1200 },
+  { month: 'October', total: 1100 },
+  { month: 'November', total: 1150 },
+  { month: 'December', total: 1400 },
+];
+
+const investmentCategories = [
+ 
+    { name: 'Food', value: 25 },         
+    { name: 'Transport', value: 15 },    
+    { name: 'Entertainment', value: 10 },
+    { name: 'Healthcare', value: 20 }, 
+    { name: 'Groceries', value: 20 },   
+    { name: 'Personal', value: 10 },     
+
+  
+];
+
+export default function HomePage() {
+  const [monthlyExpenses, setMonthlyExpenses] = useState(monthlyExpensesData);
+  const [budget, setBudget] = useState(1000); 
+  const [transactions, setTransactions] = useState([
+    { id: 1, amount: 100, date: "2025-02-10", description: "Groceries", category: "Food" },
+    { id: 2, amount: 50, date: "2025-02-12", description: "Transport", category: "Transport" },
+  ]);
+
+  const totalExpenses = monthlyExpenses.reduce((sum, expense) => sum + expense.total, 0);
+  const totalIncome = 5000; // Example total income
+  const remainingBudget = budget - totalExpenses; // Calculate remaining budget dynamically
+  const totalInvestments = investmentCategories.reduce((sum, category) => sum + category.value, 0);
+  const upcomingExpenses = 600; // Example upcoming expenses
+  const savingsPercentage = ((totalIncome - totalExpenses) / totalIncome) * 100;
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Summary Cards */}
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Total Expenses</h2>
+          <p className="text-xl font-bold text-red-600">${totalExpenses}</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Total Income</h2>
+          <p className="text-xl font-bold text-green-600">${totalIncome}</p>
+        </div>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Remaining Budget</h2>
+          <p className="text-xl font-bold text-indigo-600">${remainingBudget}</p>
+        </div>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Total Investments</h2>
+          <p className="text-xl font-bold text-yellow-600">${totalInvestments}</p>
+        </div>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Upcoming Expenses</h2>
+          <p className="text-xl font-bold text-red-500">${upcomingExpenses}</p>
+        </div>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold">Savings Percentage</h2>
+          <p className="text-xl font-bold text-green-600">{savingsPercentage.toFixed(2)}%</p>
+        </div>
+      </div>
+      <Budget
+        monthlyExpenses={monthlyExpenses}
+        setMonthlyExpenses={setMonthlyExpenses}
+        budget={budget}
+        setBudget={setBudget}
+        transactions={transactions}
+        setTransactions={setTransactions}
+      />
+
+      <MonthlyExpensesChart
+        data={monthlyExpenses}
+        investmentData={investmentCategories}
+      />
     </div>
   );
 }
